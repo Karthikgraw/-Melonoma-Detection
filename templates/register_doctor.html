@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="slider_section long_section">
+  <div id="customCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="container ">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="detail-box">
+                <p></p>
+                <h1>
+                  Create your Account | Doctor
+                </h1>
+                <br>
+                <div class="row" style="align-items: center;">
+                  <div class="col-8">
+                    {% include 'includes/messages.html' %}
+                    <form method="post" enctype="multipart/form-data" action="{% url 'register_doctor' %}">
+                      {% csrf_token %}
+                      {{ custom_user_form.as_p }}
+                      <button type="submit" class="btn btn-secondary">Submit</button>
+                    </form>
+                    <br>
+                  </div>
+                </div>
+                <br>
+                </p>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

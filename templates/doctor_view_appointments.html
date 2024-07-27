@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="slider_section long_section">
+  <div id="customCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="container ">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="detail-box">
+                <p></p>
+                <h1>
+                  Suggestions and Queries
+                </h1>
+                <br>
+                <div class="row" style="align-items: center;">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Doctor</th>
+                        <th scope="col">Query Raised By</th>
+                        <th scope="col">Query About</th>
+                        <th scope="col">Reply</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for i in appointments %}
+                      <tr>
+                        <th scope="row">{{ forlopp.counter }}</th>
+                        <td>Dr. {{ i.doctor.first_name }}</td>
+                        <td>{{ i.customer.first_name }}</td>
+                        <td>{{ i.predict }}</td>
+                        <td>
+                          {% if i.reply %}
+                          {{ i.reply }}
+                          {% else %}
+                          <form method="post" action="{% url 'appointment_response' %}">
+                            {% csrf_token %}
+                            <input type="hidden" value="{{ i.id }}" name="appointment_id">
+                            <input type="text" name="reply" required>
+                            <button type="submit">Submit</button>
+                          </form>
+                          {% endif %}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+                <br>
+                </p>
+              </div>
+            </div>
+
+            {% if prediction %}
+
+            <div class="col-md-6">
+              <div class="card">
+                <br>
+                <h5 class="card-header"><b>Predicted Result</b></h5>
+                <div class="card-body">
+                  <p class="card-text"><b>Predicted Class : </b>{{ prediction }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <h1>
+                Needs a Consultation?
+              </h1>
+              {% for j in doctors %}
+              <div class="col-3">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="{{ i.profile_pic.url }}" alt="Card image cap">
+                  <form method="post" action="{% url 'appoint_doctor' %}">
+                  </form>
+                  <div class="card-body">
+                    <h5 class="card-title">Dr. {{ i.first_name }} {{ i.last_name }}</h5>
+                    <p class="card-text">Cancer Specialist</p>
+
+                    <input type="text" value="{{ j.id }}" name="doctor_id">
+                    <input type="text" value="{{ predict }}" , name="predict">
+
+                    
+                    <button type="submit" class="btn btn-primary">Book</button>
+                  </div>
+                  </form>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+
+            {% endif %}
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+{% endblock %}

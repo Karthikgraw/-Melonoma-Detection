@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<section class="slider_section long_section">
+  <div id="customCarousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <div class="container ">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="detail-box">
+                <p></p>
+                <h1>
+                  For All Your Classification Needs
+                </h1>
+                <br>
+                <div class="row" style="align-items: center;">
+                  <div class="col-5">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'get_melanoma_prediction' %}">
+                      {% csrf_token %}
+                      <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Upload File</label>
+                        <input type="file" class="form-control" name="data" aria-describedby="emailHelp" required>
+                      </div>
+                      <button type="submit" class="btn btn-success">Get Result</button>
+                    </form>
+                    <br>
+                  </div>
+                </div>
+                <br>
+                </p>
+              </div>
+            </div>
+          </div>
+          {% if prediction %}
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card">
+                <br>
+                <h5 class="card-header"><b>Predicted Result</b></h5>
+                <div class="card-body">
+                  <p class="card-text"><b>Predicted Class : </b>{{ prediction }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p></p>
+          <p>
+          <h3>Looks for Quries?</h3>
+          </p>
+          <div class="row">
+            {% for j in doctors %}
+            <div class="col-md-6">
+              <div class="card">
+                <br>
+                <form method="post" action="{% url 'appoint_doctor' %}">
+                  {% csrf_token %}
+                  <h5 class="card-header"><b>Dr. {{ j.first_name }} {{ j.last_name }}</b></h5>
+                  <div class="card-body">
+                    <p>Cancer Specialist</p>
+                    <input type="hidden" value="{{ j.id }}" name="doctor_id">
+                    <input type="hidden" value="{{ prediction }}" , name="predict">
+                    <button type="submit" class="btn btn-primary">Book</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+          </div>
+          {% endfor %}
+        </div>
+
+
+        {% endif %}
+
+
+
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+</section>
+
+
+
+{% endblock %}
